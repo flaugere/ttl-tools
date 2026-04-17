@@ -48,6 +48,43 @@ node main.js
 1. **Separation of Concerns**: Each file has a single responsibility
 2. **Better Readability**: Smaller, focused files are easier to understand
 3. **Improved Maintainability**: Changes to one component don't affect others
+
+## Docker
+
+### Build the Docker Image
+
+To build the Docker image:
+```bash
+docker build -t tools-app .
+```
+
+### Run the Container
+
+To run the container with cron executing the application every minute:
+```bash
+docker run -dv ./data:/var/data tools-app
+```
+
+The `-d` flag runs the container in background mode.
+
+### View Logs
+
+To view the cron logs from a running container:
+```bash
+docker exec <container_id> tail -f /var/log/cron.log
+```
+
+### Stop the Container
+
+```bash
+docker stop <container_id>
+```
+
+### Notes
+
+- The application runs every minute via cron
+- Logs are written to `/var/log/cron.log` inside the container
+- Ensure environment variables (like API keys) are available in the container (use `.env` file or pass via `-e` flag)
 4. **Easier Testing**: Individual components can be tested in isolation
 5. **Better Documentation**: Clear JSDoc comments for each function
 6. **Reusability**: Components can be reused in other parts of the application

@@ -1,3 +1,4 @@
 .env.production
-sent_emails.txt
+emails.txt
 node_modules/
+data/

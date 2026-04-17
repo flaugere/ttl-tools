@@ -3,5 +3,5 @@
  */
 
 export const TAG = '{{PERSONA_DESCRIPTION}}';
-export const SENT_EMAILS_FILE = 'sent_emails.txt';
+export const SENT_EMAILS_FILE = '/var/data/emails.txt';
 export const FORM_TALLY = 'KYD0KV';
