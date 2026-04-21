@@ -3,6 +3,7 @@ import { fetchQuizSubmissions, generatePersonaDescription } from './services/api
 import { sendEmail } from './email/sender.js';
 import { generatePrompt, getEmailFromPrompt } from './quiz/questions.js';
 import { readSentEmails, appendSentEmail, isEmailAlreadySent } from './utils/emailManager.js';
+import { logDebug, logError, logInfo } from './utils/logger.js';
 
 config({ path: '.env.production' });
 
@@ -21,25 +22,25 @@ async function processQuizSubmissions() {
         const email = getEmailFromPrompt(prompt);
 
         if (isEmailAlreadySent(email, sentEmails)) {
-          console.log(`Email ${email} already sent, skipping...`);
+          logDebug(`Email ${email} already sent, skipping...`);
           continue;
         }
 
-        console.log(`Processing submission for ${email}`);
+        logDebug(`Processing submission for ${email}`);
         const personaDescription = await generatePersonaDescription(prompt);
         await sendEmail(email, personaDescription);
         await appendSentEmail(email);
-        console.log(`Successfully processed and sent email to ${email}`);
+        logInfo(`Successfully processed and sent email to ${email}`);
       } catch (error) {
-        console.error('Error processing individual submission:', error);
+        logError('Error processing individual submission:', error);
         // Continue with next submission even if one fails
         continue;
       }
     }
 
-    console.log('Quiz submission processing completed');
+    logDebug('Quiz submission processing completed');
   } catch (error) {
-    console.error('Error processing quiz submissions:', error);
+    logError('Error processing quiz submissions:', error);
   }
 }
 

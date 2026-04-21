@@ -1,5 +1,7 @@
 import nodemailer from 'nodemailer';
 import { EMAIL_TEMPLATE } from './template.js';
+import { logDebug, logError } from '../utils/logger.js';
+import { EMAIL_TRAILTHELIMIT } from '../config/constants.js';
 
 /**
  * Sends an email with the persona description
@@ -8,7 +10,7 @@ import { EMAIL_TEMPLATE } from './template.js';
  */
 export async function sendEmail(email, personaDescription) {
   if (!email) {
-    console.error('No email address found to send the persona description.');
+    logError('No email address found to send the persona description.');
     return;
   }
 
@@ -30,17 +32,17 @@ export async function sendEmail(email, personaDescription) {
   const mailOptions = {
     from: '"TrailTheLimit" <no-reply@trailthelimit.fr>',
     to: email,
+    cc: `"TrailTheLimit" <${EMAIL_TRAILTHELIMIT}>`,
     subject: 'Ton persona de traileur.se',
     html: emailContent
   };
 
-  // Send mail with defined transport object
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log('Message sent: %s', info.messageId);
+    logDebug('Message sent: %s', info.messageId);
     return info;
   } catch (error) {
-    console.error('Error sending email:', error);
+    logError('Error sending email:', error);
     throw error;
   }
 }

@@ -1,6 +1,7 @@
 import fs from 'fs';
 import crypto from 'crypto';
 import { SENT_EMAILS_FILE } from '../config/constants.js';
+import { logError } from './logger.js';
 
 /**
  * Hashes an email using SHA-256
@@ -24,7 +25,7 @@ export async function readSentEmails() {
       // File does not exist yet, return empty array
       return [];
     }
-    console.error('Error reading sent emails file:', error);
+    logError('Error reading sent emails file:', error);
     throw error;
   }
 }
@@ -38,7 +39,7 @@ export async function appendSentEmail(email) {
     const emailHash = hashEmail(email);
     await fs.promises.appendFile(SENT_EMAILS_FILE, `${emailHash}\n`);
   } catch (error) {
-    console.error('Error appending email hash to sent emails file:', error);
+    logError('Error appending email hash to sent emails file:', error);
     throw error;
   }
 }

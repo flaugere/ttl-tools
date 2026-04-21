@@ -1,5 +1,6 @@
 import { Mistral } from "@mistralai/mistralai";
 import { FORM_TALLY } from '../config/constants.js';
+import { logError } from '../utils/logger.js';
 
 function createMistralInstance() {
   const mistral = new Mistral({
@@ -22,7 +23,7 @@ export async function fetchQuizSubmissions() {
     });
     return await response.json();
   } catch (error) {
-    console.error('Error fetching quiz submissions:', error);
+    logError('Error fetching quiz submissions:', error);
     throw error;
   }
 }
@@ -50,7 +51,7 @@ export async function generatePersonaDescription(prompt) {
 
     return result.choices[0].message.content.replace(/```html|```/g, '');
   } catch (error) {
-    console.error('Error generating persona description:', error);
+    logError('Error generating persona description:', error);
     throw error;
   }
 }
