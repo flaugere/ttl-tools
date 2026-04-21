@@ -36,8 +36,8 @@ export async function fetchQuizSubmissions() {
 export async function generatePersonaDescription(prompt) {
   try {
     const mistral = createMistralInstance();
-    const result = await mistral.chat.complete({
-      model: "mistral-large-latest",
+    const result = await mistral.agents.complete({
+      agentId: "ag_019daf803c88709f963914051bf48cb1",
       messages: [
         {
           role: "user",
