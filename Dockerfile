@@ -11,7 +11,12 @@ COPY package*.json ./
 RUN npm ci --only=production
 
 # Copy source code
-COPY . .
+COPY config ./config
+COPY email ./email
+COPY quiz ./quiz
+COPY services ./services
+COPY utils ./utils
+COPY main.js ./
 
 # Install cron
 RUN apt-get update && apt-get install -y cron && rm -rf /var/lib/apt/lists/*

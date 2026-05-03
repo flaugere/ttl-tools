@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  ttl-tools:
+    image: flaugere/ttl-tools:1.0.0
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+    volumes:
+      - type: bind
+        source: /var/data
+        target: /var/data
+    secrets:
+      - source: password
+        target: /app/.env.production
+secrets:
+  password:
+    external: true
